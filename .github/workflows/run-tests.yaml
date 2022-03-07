@@ -1,28 +1,18 @@
 name: Run Litani Tests
 on:
-  workflow_dispatch:
-    branches: [ develop ]
-  push:
-    branches: [ release, develop ]
   pull_request:
-    branches: [ release, develop ]
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
   test-litani:
+    if: "!contains(github.event.pull_request.labels.*.name, '0 diff no-test')"
     name: Run Litani Tests
     runs-on: macos-latest
     steps:
-      - name: Exit
-        # if: contains(github.event.pull_request.labels.*.name, 'no-test')
+      - uses: actions/checkout@v2
+      - name: Install dependencies
         run: |
-          if [[ " ${array[*]} " =~ "documentation" ]]; then
-              exit 1
-          fi
-      # - uses: actions/checkout@v2
-      # - name: Install dependencies
-      #   run: |
-      #     brew install ninja
-      #     python3 -m pip install jinja2
-      # - name: Run Unit and e2e tests
-      #   run: ./test/run
-
+          brew install ninja
+          python3 -m pip install jinja2
+      - name: Run Unit and e2e tests
+        run: ./test/run
