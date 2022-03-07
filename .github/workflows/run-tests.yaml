@@ -13,13 +13,14 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Exit
-        if: contains(github.event.pull_request.labels.*.name, 'no-test')
-        run: exit 0
-      - uses: actions/checkout@v2
-      - name: Install dependencies
+        # if: contains(github.event.pull_request.labels.*.name, 'no-test')
         run: |
-          brew install ninja
-          python3 -m pip install jinja2
-      - name: Run Unit and e2e tests
-        run: ./test/run
+          echo ${{ github.event.pull_request.labels }}
+      # - uses: actions/checkout@v2
+      # - name: Install dependencies
+      #   run: |
+      #     brew install ninja
+      #     python3 -m pip install jinja2
+      # - name: Run Unit and e2e tests
+      #   run: ./test/run
 
