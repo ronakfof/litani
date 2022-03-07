@@ -5,22 +5,26 @@ on:
   push:
     branches: [ release, develop ]
   pull_request:
-    branches: [ release, develop ] 
+    branches: [ release, develop ]
 
 jobs:
   test-litani:
     name: Run Litani Tests
     runs-on: macos-latest
     steps:
-      - name: Exit
-        if: contains(github.event.pull_request.labels.*.name, 'no-test')
-        run: |
-          exit 1
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          brew install ninja
-          python3 -m pip install jinja2
-      - name: Run Unit and e2e tests
-        run: ./test/run
+      - name: Check for labels
+        id: check-labels
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: { labels: labels } } = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            })
+            const label_names = labels.map(label => label.name)
+            return label_names
+      - name: echo
+        run: echo "${{steps.check-labels.outputs.result}}"
 
