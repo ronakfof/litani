@@ -1,11 +1,11 @@
 name: Run Litani Tests
 on:
   workflow_dispatch:
-    branches: [ develop ]
+    branches: [ release, develop ]
   push:
     branches: [ release, develop ]
   pull_request:
-    branches: [ release, develop ]
+    branches: [ release, develop ] 
 
 jobs:
   test-litani:
@@ -13,14 +13,14 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Exit
-        # if: contains(github.event.pull_request.labels.*.name, 'no-test')
+        if: contains(github.event.pull_request.labels.*.name, 'no-test')
         run: |
-          echo ${{github.event.pull_request.labels.*.name[0]}}
-      # - uses: actions/checkout@v2
-      # - name: Install dependencies
-      #   run: |
-      #     brew install ninja
-      #     python3 -m pip install jinja2
-      # - name: Run Unit and e2e tests
-      #   run: ./test/run
+          exit 1
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          brew install ninja
+          python3 -m pip install jinja2
+      - name: Run Unit and e2e tests
+        run: ./test/run
 
