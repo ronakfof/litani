@@ -5,7 +5,7 @@ on:
 
 jobs:
   test-litani:
-    if: "!contains(github.event.pull_request.labels.*.name, '0 diff no-test')"
+    if: "!contains(github.event.pull_request.labels.*.name, 'no-test')"
     name: Run Litani Tests
     runs-on: macos-latest
     steps:
