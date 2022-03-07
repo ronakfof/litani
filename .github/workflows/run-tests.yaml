@@ -9,27 +9,10 @@ on:
 
 jobs:
   test-litani:
+    if: !contains(github.event.pull_request.labels.*.name, 'no-test')
     name: Run Litani Tests
     runs-on: macos-latest
     steps:
-      - name: Check for no-test
-        id: check-labels
-        uses: actions/github-script@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: { labels: labels } } = await github.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number
-            })
-            const label_names = labels.map(label => label.name)
-            if label_names.includes("no-test")
-            if (label_names.includes("no-test")) {
-              exit(0)
-            } 
-      - name: Check for labels
-        run: if ${{steps.check-labels.outputs.result}}; do
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: |
@@ -37,3 +20,4 @@ jobs:
           python3 -m pip install jinja2
       - name: Run Unit and e2e tests
         run: ./test/run
+
