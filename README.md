@@ -1,14 +1,3 @@
-Litani
-=
-
-Litani is a build system that provides an HTML dashboard of job results, as well
-as a JSON-formatted record of job results. It provides platform-independent job
-control (timeouts, return code control) and an output format that is easy to
-render into reports (for example, using the built-in renderer).
-
-### Documentation
-
-Hosted [here](https://awslabs.github.io/aws-build-accumulator/). The Homebrew
 and Debian packages also install the man pages locally, try
 `man litani-add-job`.
 
