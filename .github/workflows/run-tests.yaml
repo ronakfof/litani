@@ -15,9 +15,7 @@ jobs:
       - name: Exit
         # if: contains(github.event.pull_request.labels.*.name, 'no-test')
         run: |
-          if [[ " ${{ github.event.pull_request.labels[*] }} " =~ "documentation" ]]; then
-              exit 1
-          fi
+          echo ${{ github.event.pull_request.labels.*.name }}
       # - uses: actions/checkout@v2
       # - name: Install dependencies
       #   run: |
