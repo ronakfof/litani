@@ -1,5 +1,3 @@
-```
-
 On Ubuntu, Install Litani by downloading the `*.deb` package built by each release,
 available on the
 [releases](https://github.com/awslabs/aws-build-accumulator/releases) page and
