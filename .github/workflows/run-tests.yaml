@@ -6,6 +6,7 @@ on:
     branches: [ release, develop ]
   pull_request:
     branches: [ release, develop ]
+    types: [ labeled ]
 
 jobs:
   test-litani:
