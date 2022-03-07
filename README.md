@@ -1,5 +1,3 @@
-```bash
-brew install litani
 ```
 
 On Ubuntu, Install Litani by downloading the `*.deb` package built by each release,
