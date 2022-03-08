@@ -3,7 +3,6 @@ on: push
 
 jobs:
   test-litani:
-    if: ${{ github.event.label.name == 'test' }}
     name: Run Litani Tests
     runs-on: ubuntu-latest
     steps:
