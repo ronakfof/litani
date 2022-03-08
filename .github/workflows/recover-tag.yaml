@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
       - name: recover
         run: |
-          git tag ${{ github.ref }} e95f1e601ab62def0f3350906355978741b63830
+          git tag ${{ github.ref }} 8b58d19d91b665b1b52f6f6228d49d0866d4a13c
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
