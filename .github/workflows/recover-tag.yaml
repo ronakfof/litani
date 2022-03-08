@@ -3,7 +3,7 @@ on:
   delete
 
 jobs:
-  recover tag:
+  recover-tag:
     name: Run Litani Tests
     runs-on: ubuntu-latest
     steps:
@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
       - name: recover
         run: |
-          git tag ${{ github.ref }} 8768bb60dfda13d1f8b3ca334a2d0c4d84eea2bb
+          git tag ${{ github.ref }} e95f1e601ab62def0f3350906355978741b63830
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
