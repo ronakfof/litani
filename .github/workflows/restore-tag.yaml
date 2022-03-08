@@ -1,0 +1,46 @@
+name: restore tag
+on:
+  - delete
+
+jobs:
+  start-ec2:
+    name: Run Litani Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Run aws cli commands
+        run: |
+          # start command
+          # aws ssm run command (bash script) to trigger ./run.sh
+          aws ec2 describe-instances
+  restore-tag:
+    needs: start-ec2
+    name: Run Litani Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: cd into tag repo
+        run: |
+          cd ${repo}-${ref}
+          git config --global user.email "${GITHUB_ACTOR}"
+          git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin ${ref}
+  stop-ec2:
+    needs: backup-repo
+    name: Run Litani Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Run aws cli stop ec2 command
+        run: |
+          # stop command
