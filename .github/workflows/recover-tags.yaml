@@ -1,11 +1,10 @@
 name: Recover Tags
 on:
   - delete
-
+permissions: read-all|write-all
 jobs:
   recover-tags:
     name: Recover Tags
-    permissions: read-all|write-all
     runs-on: ubuntu-20.04
     env:
       GITHUB_TOKEN: ${{ secrets.TOKEN }}
