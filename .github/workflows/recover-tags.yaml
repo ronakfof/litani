@@ -27,7 +27,7 @@ jobs:
           -H "Authorization: token ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}" \
           -d @- << EOF
           {
-            "ref": "refs/tags/1.23.0",
-            "sha": "c0344fbaabbdc8645d53dcd1a2460f3130d9921b"
+            "ref": "refs/tags/${{ github.event.ref }}",
+            "sha": "$(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')"
           }
           EOF
