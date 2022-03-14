@@ -19,6 +19,7 @@ jobs:
       - name: install pygithub
         run: pip3 install pygithub
       - name: get tag-sha dict
+        permissions: write-all
         id: tag-sha-dict
         run: |
           dict=$(python3 ./.github/workflows/a 2>&1)
