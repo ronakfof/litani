@@ -1,0 +1,17 @@
+name: Recover Tags
+on:
+  delete
+
+  workflow_dispatch:
+
+jobs:
+  recover-tags:
+    name: Recover Tags
+    runs-on: ubuntu-20.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
+    steps:
+      - name: Checkout code
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0

@@ -1,0 +1,37 @@
+name: Backup Tags
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  backup-tags:
+    name: Backup Tags
+    runs-on: ubuntu-20.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
+    steps:
+      - name: Checkout code
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: install pygithub
+        run: pip3 install pygithub
+      - name: get tag-sha dict
+        id: tag-sha-dict
+        run: |
+          #!/usr/bin/env python3
+          import json
+          import subprocess
+          import github
+
+          def get_tag_sha(tag):
+              sha = subprocess.run(["git", "rev-list", "--max-count=1", tag], check=True, stdout=subprocess.PIPE).stdout.strip().decode("utf-8")
+              return sha
+
+          tags = subprocess.run(["git", "tag"], check=True, stdout=subprocess.PIPE).stdout.strip().decode("utf-8")
+          tag_sha_dict = {}
+          for tag in tags.split("\n"):
+              tag_sha_dict[tag] = get_tag_sha(tag)
+          github.create_secret("tag-sha", json.dumps(tag_sha_dict, indent=2))

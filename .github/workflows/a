@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+import json
+import subprocess
+
+def get_tag_sha(tag):
+    sha = subprocess.run(["git", "rev-list", "--max-count=1", tag], check=True, stdout=subprocess.PIPE).stdout.strip().decode("utf-8")
+    return sha
+
+tags = subprocess.run(["git", "tag"], check=True, stdout=subprocess.PIPE).stdout.strip().decode("utf-8")
+tag_sha_dict = {}
+for tag in tags.split("\n"):
+    tag_sha_dict[tag] = get_tag_sha(tag)
+
+print(json.dumps(tag_sha_dict, indent=2))
