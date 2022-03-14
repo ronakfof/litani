@@ -28,6 +28,6 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: ${{ github.event.ref }},
+              ref: refs/tags/${{ github.event.ref }},
               sha: $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')
             })
