@@ -21,7 +21,6 @@ jobs:
       - name: get tag-sha dict
         id: tag-sha-dict
         run: |
-          #!/usr/bin/env python3
           import json
           import subprocess
           import github
