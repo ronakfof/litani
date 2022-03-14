@@ -24,10 +24,10 @@ jobs:
       - name: Create tag
         run: |
           curl -s -X POST https://api.github.com/repos/ronakfof/litani/git/refs \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d @- << EOF
-            {
-              "ref": "refs/tags/1.23.0",
-              "sha": "c0344fbaabbdc8645d53dcd1a2460f3130d9921b"
-            }
-            EOF
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -d @- << EOF
+          {
+            "ref": "refs/tags/1.23.0",
+            "sha": "c0344fbaabbdc8645d53dcd1a2460f3130d9921b"
+          }
+          EOF
