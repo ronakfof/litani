@@ -5,7 +5,10 @@ on:
 jobs:
   recover-tags:
     name: Recover Tags
+    permissions: read-all|write-all
     runs-on: ubuntu-20.04
+    env:
+      GITHUB_TOKEN: ${{ secrets.TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,7 +19,7 @@ jobs:
           brew install jq
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/${{ github.repository }}
           git tag -a ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
           git push origin --tags
           git fetch origin
