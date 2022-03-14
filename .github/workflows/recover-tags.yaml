@@ -10,4 +10,3 @@ jobs:
       - name: echo
         run: |
           echo ${{ github.event.ref }}
-          echo ${{ github.ref }}

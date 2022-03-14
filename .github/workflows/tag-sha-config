@@ -13,5 +13,7 @@ def get_tag_sha_dict():
     for tag in tags.split("\n"):
         tag_sha_dict[tag] = get_tag_sha(tag)
     print(json.dumps(tag_sha_dict, indent=2))
+    with open("tag-sha-config.json", "w") as handle:
+        json.dump(tag_sha_dict, handle, indent=2)
 
 get_tag_sha_dict()
