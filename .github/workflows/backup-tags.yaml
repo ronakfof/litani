@@ -25,6 +25,7 @@ jobs:
           echo $dict[$@]
           curl \
           -X PUT \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/secrets/TAG_SHA \
           -d '{"encrypted_value":$dict}'
