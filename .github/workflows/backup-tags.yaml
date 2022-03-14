@@ -21,4 +21,5 @@ jobs:
       - name: get tag-sha dict
         id: tag-sha-dict
         run: |
-          python3 ./.github/workflows/a
+          dict = $(python3 ./.github/workflows/a 2>&1)
+          echo $dict[$@]
