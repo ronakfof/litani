@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions: write-all
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,7 +20,6 @@ jobs:
       - name: install pygithub
         run: pip3 install pygithub
       - name: get tag-sha dict
-        permissions: write-all
         id: tag-sha-dict
         run: |
           dict=$(python3 ./.github/workflows/a 2>&1)
