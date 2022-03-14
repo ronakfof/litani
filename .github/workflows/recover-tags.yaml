@@ -19,15 +19,15 @@ jobs:
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.RELEASE_CI_ACCESS_TOKEN }}@github.com/${{ github.repository }}
-          git tag ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
-          git push origin ${{ github.event.ref }}
-      # - name: Create tag
-      #   run: |
-      #     curl -s -X POST https://api.github.com/repos/ronakfof/litani/git/refs \
-      #     -H "Authorization: token ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}" \
-      #     -d @- << EOF
-      #     {
-      #       "ref": "refs/tags/${{ github.event.ref }}",
-      #       "sha": "$(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')"
-      #     }
-      #     EOF
+          # git tag ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
+          # git push origin ${{ github.event.ref }}
+      - name: Create tag
+        run: |
+          curl -s -X POST https://api.github.com/repos/ronakfof/litani/git/refs \
+          -H "Authorization: token ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}" \
+          -d @- << EOF
+          {
+            "ref": "refs/tags/${{ github.event.ref }}",
+            "sha": "$(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')"
+          }
+          EOF
