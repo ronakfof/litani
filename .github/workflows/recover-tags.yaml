@@ -22,12 +22,12 @@ jobs:
           # git tag ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
           # git push origin ${{ github.event.ref }}
       - name: Create tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: refs/tags/${{ github.event.ref }},
-              sha: $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')
-            })
+        run: |
+          curl -s -X POST https://api.github.com/repos/ronakfof/litani/git/refs \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d @- << EOF
+            {
+              "ref": "refs/tags/1.23.0",
+              "sha": "c0344fbaabbdc8645d53dcd1a2460f3130d9921b"
+            }
+            EOF
