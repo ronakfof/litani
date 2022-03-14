@@ -1,6 +1,6 @@
 name: Recover Tags
 on:
-  delete
+  - delete
 
 jobs:
   recover-tags:
