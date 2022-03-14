@@ -5,7 +5,6 @@ on:
 jobs:
   recover-tags:
     name: Recover Tags
-    permissions: read-all
     runs-on: ubuntu-20.04
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
