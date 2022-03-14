@@ -10,7 +10,7 @@ jobs:
     name: Backup Tags
     runs-on: ubuntu-20.04
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.TOKEN }}
     permissions: write-all
     steps:
       - name: Checkout code
@@ -28,7 +28,7 @@ jobs:
           # git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/${{ github.repository }}
           git add tag-sha-config.json
           git commit -m "update tags sha"
           git push origin HEAD:release
