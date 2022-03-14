@@ -10,8 +10,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: echo
@@ -20,7 +19,5 @@ jobs:
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git tag -a ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
-          git push origin --tags
-          git fetch origin
-          git ls-remote --tags origin
+          git tag ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
+          git push origin ${{ github.event.ref }}
