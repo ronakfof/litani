@@ -2,8 +2,6 @@ name: Recover Tags
 on:
   delete
 
-  workflow_dispatch:
-
 jobs:
   recover-tags:
     name: Recover Tags
