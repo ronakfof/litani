@@ -8,7 +8,7 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-20.04
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -24,7 +24,7 @@ jobs:
       - name: Create tag
         run: |
           curl -s -X POST https://api.github.com/repos/ronakfof/litani/git/refs \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}" \
           -d @- << EOF
           {
             "ref": "refs/tags/1.23.0",
