@@ -19,5 +19,15 @@ jobs:
           git config --global user.email "${GITHUB_ACTOR}"
           git config --global user.name "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git tag ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
-          git push origin ${{ github.event.ref }}
+          # git tag ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
+          # git push origin ${{ github.event.ref }}
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: ${{ github.event.ref }},
+              sha: $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')
+            })
