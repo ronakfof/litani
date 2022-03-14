@@ -12,6 +12,6 @@ def get_tag_sha_dict():
     tag_sha_dict = {}
     for tag in tags.split("\n"):
         tag_sha_dict[tag] = get_tag_sha(tag)
-    return json.dumps(tag_sha_dict, indent=2)
+    print(json.dumps(tag_sha_dict, indent=2))
 
 get_tag_sha_dict()
