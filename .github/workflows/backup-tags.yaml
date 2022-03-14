@@ -10,7 +10,7 @@ jobs:
     name: Backup Tags
     runs-on: ubuntu-20.04
     env:
-      GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -27,4 +27,4 @@ jobs:
           -X PUT \
           -H "Accept: application/vnd.github.v3+json" \
           https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/secrets/TAG_SHA \
-          -d '{"encrypted_value":$dict'
+          -d '{"encrypted_value":$dict}'
