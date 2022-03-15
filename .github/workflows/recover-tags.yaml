@@ -36,8 +36,8 @@ jobs:
           script: |
             const repo_owner = context.repo.owner;
             const repo_name = context.repo.repo;
-            const commit_sha = $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"');
-            const tag_name = ${{ github.event.ref }};
+            const commit_sha = 8b58d19d91b665b1b52f6f6228d49d0866d4a13c;
+            const tag_name = 1.19.0;
             const tag_message = "Retag";
             const tag_response = github.rest.git.createTag({
               owner: repo_owner,
