@@ -34,11 +34,33 @@ jobs:
       - uses: actions/github-script@v6
         with:
           script: |
-            const tag_response = await octokit.rest.git.createTag({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag: ${{ github.event.ref }},
-              message: "Retag ${{ github.event.ref }}",
-              object: $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"'),
-              type: 'commit'
-            });
+            const repo_owner = context.repo.owner;
+            const repo_name = context.repo.repo;
+            const commit_sha = $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"');
+            const tag_name = ${{ github.event.ref }}
+            const tag_message = "Retag ${{ github.event.ref }}"
+            if (annotated) {
+                const tag_response = await octokit.rest.git.createTag({
+                  owner: repo_owner,
+                  repo: repo_name,
+                  tag: tag_name,
+                  message: tag_message,
+                  object: commit_sha,
+                  type: 'commit'
+                });
+                if (201 !== tag_response.status) {
+                  setFailed(`Failed to create tag object (status=${tag_response.status})`);
+                  return;
+                }
+              }
+              const ref_response = await octokit.rest.git.createRef({
+                owner: repo_owner,
+                repo: repo_name,
+                ref: `refs/tags/${tag_name}`,
+                sha: commit_sha
+              });
+              if (201 !== ref_response.status) {
+                setFailed(`Failed to create tag ref (status=${ref_response.status})`);
+                return;
+              }
+            }
