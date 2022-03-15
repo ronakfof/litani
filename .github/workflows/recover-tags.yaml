@@ -21,13 +21,24 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.RELEASE_CI_ACCESS_TOKEN }}@github.com/${{ github.repository }}
           # git tag ${{ github.event.ref }} $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"') -m "retag"
           # git push origin ${{ github.event.ref }}
-      - name: Create tag
-        run: |
-          curl -s -X POST https://api.github.com/repos/ronakfof/litani/git/refs \
-          -H "Authorization: token ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}" \
-          -d @- << EOF
-          {
-            "ref": "refs/tags/${{ github.event.ref }}",
-            "sha": "$(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')"
-          }
-          EOF
+      # - name: Create tag
+      #   run: |
+      #     curl -s -X POST https://api.github.com/repos/ronakfof/litani/git/refs \
+      #     -H "Authorization: token ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}" \
+      #     -d @- << EOF
+      #     {
+      #       "ref": "refs/tags/${{ github.event.ref }}",
+      #       "sha": "$(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"')"
+      #     }
+      #     EOF
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const tag_response = await octokit.rest.git.createTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: ${{ github.event.ref }},
+              message: "Retag ${{ github.event.ref }}",
+              object: $(cat tag-sha-config.json |  jq -r '."${{ github.event.ref }}"'),
+              type: 'commit'
+            });
