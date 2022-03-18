@@ -114,7 +114,7 @@ jobs:
         brew tap aws/tap
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
         git remote -v
-        git remote add temp https://github.com/aws-build-accumulator-release-ci/homebrew-tap.git 
+        git remote add temp ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}@github.com:aws-build-accumulator-release-ci/homebrew-tap.git
         git remote -v
         git checkout -B update-bottle
         git push temp update-bottle
