@@ -88,6 +88,8 @@ jobs:
   upload:
 #     needs: test-bot
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
     steps:
 #     - uses: actions/download-artifact@v3
 #       with:
@@ -112,13 +114,11 @@ jobs:
         brew tap aws/tap
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
         git remote -v
-        git remote add aws-build-accumulator-release-ci https://github.com/aws-build-accumulator-release-ci/homebrew-tap.git 
+        git remote add temp https://github.com/aws-build-accumulator-release-ci/homebrew-tap.git 
         git remote -v
         git checkout -B update-bottle
-        git push aws-build-accumulator-release-ci update-bottle
+        git push temp update-bottle
         hub pull-request
-      env:
-        GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
     - name: diff
       run: |
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
