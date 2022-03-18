@@ -53,13 +53,26 @@ jobs:
           bottle_name="$(ls *.tar.gz)"
           echo "::set-output name=bottle::$deb_package_name"
           echo "::set-output name=bottle_name::$deb_package_name"
-      - name: Get release
-        id: get_release_info
-        uses: bruceadams/get-release@v1.2.3
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+            route: GET /repos/:repository/releases/latest
+            repository: ${{ github.repository }}
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: get upload url
+        id: get_upload_url
+        run: |
+          url=$(echo "$response" | jq -r '.upload_url')
+          echo "::set-output name=url::$url"
+        env: 
+            response:  ${{ steps.get_latest_release.outputs.data }}
       - name: Upload release binary
         uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          upload_url: ${{ steps.get_upload_url.outputs.url }}
           asset_path: ${{ steps.packages.outputs.bottle }}
           asset_name: ${{ steps.packages.outputs.bottle_name }}
           asset_content_type: application/x-gzip
