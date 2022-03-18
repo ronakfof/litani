@@ -118,7 +118,7 @@ jobs:
         git remote -v
         git checkout -B update-bottle
         git push temp update-bottle
-        hub pull-request
+        hub pull-request -p
     - name: diff
       run: |
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
