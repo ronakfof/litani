@@ -25,24 +25,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: brew install-bundler-gems
 
-      - run: |
-          brew tap aws/tap
-          brew fetch --retry autoconf automake cmake docutils maven python@3.10
-          brew fetch --retry aws/tap/cbmc-viewer --build-bottle
-          brew install --only-dependencies --verbose --build-bottle aws/tap/cbmc-viewer
-          brew install --verbose --build-bottle aws/tap/cbmc-viewer
-          brew audit aws/tap/cbmc-viewer --online --git --skip-style
-          brew bottle --verbose --json aws/tap/cbmc-viewer
-          brew bottle --merge --write --no-commit ./cbmc-viewer--2.11.monterey.bottle.json
-          brew uninstall --force aws/tap/cbmc-viewer
-          brew uninstall --force autoconf automake cmake docutils maven python@3.10
-          brew install --only-dependencies ./cbmc-viewer--2.11.monterey.bottle.1.tar.gz
-          brew install ./cbmc-viewer--2.11.monterey.bottle.1.tar.gz
-          brew linkage --test aws/tap/cbmc-viewer
-          brew linkage --cached --test --strict aws/tap/cbmc-viewer
-          brew linkage --cached aws/tap/cbmc-viewer
-          brew install --only-dependencies --include-test aws/tap/cbmc-viewer
-          brew test --verbose aws/tap/cbmc-viewer
+      - run: brew test-bot aws/tap/cbmc-viewer
+
       - name: LS
         run: ls
       - name: pwd
