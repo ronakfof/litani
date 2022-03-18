@@ -26,30 +26,12 @@ jobs:
       - name: Install Homebrew Bundler RubyGems
         if: steps.cache.outputs.cache-hit != 'true'
         run: brew install-bundler-gems
-      
-      - name: release info
-        uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-            route: GET /repos/:repository/releases/latest
-            repository: ${{ github.repository }}
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: get release name
-        id: get_release_name
-        run: |
-          brew install jq
-          name=$(echo "$response" | jq -r '.name')
-          echo "::set-output name=name::$name"
-        env: 
-            response:  ${{ steps.get_latest_release.outputs.data }}
 
       - name: Build bottle
         run: |
           brew tap aws/tap
           brew update-reset
-          brew test-bot --root-url https://github.com/$GITHUB_REPOSITORY/releases/download/${{ steps.get_release_name.outputs.name }} aws/tap/cbmc-viewer
+          brew test-bot --root-url https://github.com/ronakfof/litani/releases/tag/1.17.0 aws/tap/cbmc-viewer
 
       - name: LS
         run: ls
@@ -71,6 +53,13 @@ jobs:
           bottle_name="$(ls *.tar.gz)"
           echo "::set-output name=bottle::$bottle_name"
           echo "::set-output name=bottle_name::$bottle_name"
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+            route: GET /repos/:repository/releases/latest
+            repository: ${{ github.repository }}
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: get upload url
         id: get_upload_url
         run: |
@@ -98,8 +87,3 @@ jobs:
 
     - name: Display structure of downloaded files
       run: ls -R
-    - name: tap aws/tap
-      run: |
-        brew tap aws/tap
-        brew update-reset
-    - name: brew bottle --merge --write $(ls *.json)
