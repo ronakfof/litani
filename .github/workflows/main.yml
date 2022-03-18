@@ -34,6 +34,7 @@ jobs:
             repository: ${{ github.repository }}
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: get release name
         id: get_release_name
         run: |
@@ -42,6 +43,7 @@ jobs:
           echo "::set-output name=name::$name"
         env: 
             response:  ${{ steps.get_latest_release.outputs.data }}
+
       - name: Build bottle
         run: |
           brew tap aws/tap
