@@ -98,10 +98,10 @@ jobs:
 #     - name: Display structure of downloaded files
 #       run: ls -R
 
-#     - name: Configure git user name and email
-#       uses: Homebrew/actions/git-user-config@master
-#       with:
-#         username: aws-build-accumulator-release-ci
+    - name: Configure git user name and email
+      uses: Homebrew/actions/git-user-config@master
+      with:
+        username: aws-build-accumulator-release-ci
 
 #     - name: add dsl
 #       run: |
