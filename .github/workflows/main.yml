@@ -120,7 +120,7 @@ jobs:
         touch abc.sh
         git add .
         git commit -m "add abc"
-        git push temp update-bottle
+        git push temp update-bottle2
         hub pull-request -p -m "add abc"
     - name: diff
       run: |
