@@ -27,7 +27,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: brew install-bundler-gems
       
-      - uses: octokit/request-action@v2.x
+      - name: release info
+        uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
             route: GET /repos/:repository/releases/latest
