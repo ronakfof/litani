@@ -116,11 +116,12 @@ jobs:
         git remote -v
         git remote add temp https://${{ secrets.RELEASE_CI_ACCESS_TOKEN }}@github.com/aws-build-accumulator-release-ci/homebrew-tap.git
         git remote -v
-        git checkout -B update-bottle3
+        git checkout -B update-bottle4
         touch abc.sh
         git add .
         git commit -m "add abc"
-        git push temp update-bottle3
+        git push temp update-bottle4
+        git config --global hub.protocol https
         touch ~/.config/hub
         cat << EOF > ~/.config/hub
         github.com:
