@@ -63,6 +63,7 @@ jobs:
       - name: get upload url
         id: get_upload_url
         run: |
+          brew install jq
           url=$(echo "$response" | jq -r '.upload_url')
           echo "::set-output name=url::$url"
         env: 
