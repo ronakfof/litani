@@ -116,7 +116,7 @@ jobs:
         git remote -v
         git remote add temp https://${{ secrets.RELEASE_CI_ACCESS_TOKEN }}@github.com/aws-build-accumulator-release-ci/homebrew-tap.git
         git remote -v
-        git checkout -B update-bottle
+        git checkout -B update-bottle2
         touch abc.sh
         git add .
         git commit -m "add abc"
