@@ -107,7 +107,16 @@ jobs:
         brew bottle --merge --write $(ls *.json)
       env:
         HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
-    
+    - name: fork and pr
+      run: |
+        cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
+        git remote add origin https://github.com/aws/homebrew-tap.git
+        hub fork --remote-name origin
+        git checkout -B update-bottle
+        git push aws-build-accumulator-release-ci update-bottle
+        hub pull-request
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
     - name: diff
       run: |
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
