@@ -33,19 +33,19 @@ jobs:
             repository: ${{ github.repository }}
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: get upload url
-        id: get_upload_url
+      - name: get_release_name
+        id: get_release_name
         run: |
           brew install jq
-          url=$(echo "$response" | jq -r '.upload_url')
-          echo "::set-output name=url::$url"
+          name=$(echo "$response" | jq -r '.name')
+          echo "::set-output name=name::$name"
         env: 
             response:  ${{ steps.get_latest_release.outputs.data }}
       - name: Build bottle
         run: |
           brew tap aws/tap
           brew update-reset
-          brew test-bot --root-url https://github.com/ronakfof/litani/releases/tag/1.17.0 aws/tap/cbmc-viewer
+          brew test-bot --root-url ${{ steps.get_release_name.outputs.name }} aws/tap/cbmc-viewer
 
       - name: LS
         run: ls
