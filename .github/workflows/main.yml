@@ -95,3 +95,13 @@ jobs:
 
     - name: Display structure of downloaded files
       run: ls -R
+
+    - name: add dsl
+      run: |
+        brew tap aws/tap
+        brew bottle --merge --write $(ls *.json)
+    
+    - name: diff
+      run: |
+        cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
+        git diff
