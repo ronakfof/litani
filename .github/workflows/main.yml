@@ -121,7 +121,7 @@ jobs:
         git add .
         git commit -m "add abc"
         git push temp update-bottle
-        hub pull-request -p
+        hub pull-request -p -m "add abc"
     - name: diff
       run: |
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
