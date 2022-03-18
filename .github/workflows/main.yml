@@ -115,7 +115,7 @@ jobs:
         git remote add aws-build-accumulator-release-ci https://github.com/aws-build-accumulator-release-ci/homebrew-tap.git 
         git remote -v
         git checkout -B update-bottle
-        git push ws-build-accumulator-release-ci update-bottle
+        git push aws-build-accumulator-release-ci update-bottle
         hub pull-request
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
