@@ -26,7 +26,21 @@ jobs:
       - name: Install Homebrew Bundler RubyGems
         if: steps.cache.outputs.cache-hit != 'true'
         run: brew install-bundler-gems
-
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+            route: GET /repos/:repository/releases/latest
+            repository: ${{ github.repository }}
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: get upload url
+        id: get_upload_url
+        run: |
+          brew install jq
+          url=$(echo "$response" | jq -r '.upload_url')
+          echo "::set-output name=url::$url"
+        env: 
+            response:  ${{ steps.get_latest_release.outputs.data }}
       - name: Build bottle
         run: |
           brew tap aws/tap
@@ -53,13 +67,7 @@ jobs:
           bottle_name="$(ls *.tar.gz)"
           echo "::set-output name=bottle::$bottle_name"
           echo "::set-output name=bottle_name::$bottle_name"
-      - uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-            route: GET /repos/:repository/releases/latest
-            repository: ${{ github.repository }}
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: get upload url
         id: get_upload_url
         run: |
