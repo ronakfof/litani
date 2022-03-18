@@ -26,6 +26,7 @@ jobs:
         run: brew install-bundler-gems
 
       - run: |
+          brew tap aws/tap
           brew fetch --retry autoconf automake cmake docutils maven python@3.10
           brew fetch --retry aws/tap/cbmc-viewer --build-bottle
           brew install --only-dependencies --verbose --build-bottle aws/tap/cbmc-viewer
