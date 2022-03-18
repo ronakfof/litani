@@ -111,18 +111,17 @@ jobs:
 #         HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
     - name: fork and pr
       run: |
+        git config --global hub.protocol https
         brew tap aws/tap
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
         git remote -v
-        git remote add temp https://github.com/aws-build-accumulator-release-ci/homebrew-tap.git
+        hub fork --remote-name origin
         git remote -v
         git checkout -B update-bottle6
         touch abc.sh
         git add .
         git commit -m "add abc"
-        git push temp update-bottle6
-        git config --global hub.protocol https
-        export GITHUB_TOKEN=${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
+        git push origin update-bottle6
         hub pull-request -p -m "add abc"
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
