@@ -1,0 +1,71 @@
+name: CI
+on:
+  workflow_dispatch:
+
+jobs:
+  test-bot:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, macos-10.15]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set up Homebrew
+        id: set-up-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Cache Homebrew Bundler RubyGems
+        id: cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.set-up-homebrew.outputs.gems-path }}
+          key: ${{ runner.os }}-rubygems-${{ steps.set-up-homebrew.outputs.gems-hash }}
+          restore-keys: ${{ runner.os }}-rubygems-
+
+      - name: Install Homebrew Bundler RubyGems
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: brew install-bundler-gems
+
+      - run: |
+          brew fetch --retry autoconf automake cmake docutils maven python@3.10
+          brew fetch --retry aws/tap/cbmc-viewer --build-bottle
+          brew install --only-dependencies --verbose --build-bottle aws/tap/cbmc-viewer
+          brew install --verbose --build-bottle aws/tap/cbmc-viewer
+          brew audit aws/tap/cbmc-viewer --online --git --skip-style
+          brew bottle --verbose --json aws/tap/cbmc-viewer
+          brew bottle --merge --write --no-commit ./cbmc-viewer--2.11.monterey.bottle.json
+          brew uninstall --force aws/tap/cbmc-viewer
+          brew uninstall --force autoconf automake cmake docutils maven python@3.10
+          brew install --only-dependencies ./cbmc-viewer--2.11.monterey.bottle.1.tar.gz
+          brew install ./cbmc-viewer--2.11.monterey.bottle.1.tar.gz
+          brew linkage --test aws/tap/cbmc-viewer
+          brew linkage --cached --test --strict aws/tap/cbmc-viewer
+          brew linkage --cached aws/tap/cbmc-viewer
+          brew install --only-dependencies --include-test aws/tap/cbmc-viewer
+          brew test --verbose aws/tap/cbmc-viewer
+      - name: LS
+        run: ls
+      - name: pwd
+        run: echo $(pwd)
+#       - name: Upload bottles as artifact
+#         if: always() && github.event_name == 'pull_request'
+#         uses: actions/upload-artifact@main
+#         with:
+#           name: bottles
+#           path: '*.bottle.*'
+#       - name: Get release
+#         id: get_release_info
+#         uses: bruceadams/get-release@v1.2.3
+#       - name: Upload release binary
+#         uses: actions/upload-release-asset@v1.0.2
+#         with:
+#           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+#           asset_path: ${{ steps.create_packages.outputs.deb_package }}
+#           asset_name: ${{ steps.create_packages.outputs.deb_package_name }}
+#           asset_content_type: application/x-deb
+#       - name: Upload release binary
+#         uses: actions/upload-release-asset@v1.0.2
+#         with:
+#           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+#           asset_path: ${{ steps.create_packages.outputs.deb_package }}
+#           asset_name: ${{ steps.create_packages.outputs.deb_package_name }}
+#           asset_content_type: application/x-deb
