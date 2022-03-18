@@ -45,7 +45,7 @@ jobs:
         run: |
           brew tap aws/tap
           brew update-reset
-          brew test-bot --root-url ${{ steps.get_release_name.outputs.name }} aws/tap/cbmc-viewer
+          brew test-bot --root-url https://github.com/ronakfof/homebrew-litani/releases/download/${{ steps.get_release_name.outputs.name }} aws/tap/cbmc-viewer
 
       - name: LS
         run: ls
@@ -95,13 +95,21 @@ jobs:
 
     - name: Display structure of downloaded files
       run: ls -R
+    
+    - name: Configure git user name and email
+      uses: Homebrew/actions/git-user-config@master
+      with:
+        username: aws-build-accumulator-release-ci
 
     - name: add dsl
       run: |
         brew tap aws/tap
         brew bottle --merge --write $(ls *.json)
+      env:
+        HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.RELEASE_CI_ACCESS_TOKEN }}
     
     - name: diff
       run: |
         cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
         git diff
+        git log
