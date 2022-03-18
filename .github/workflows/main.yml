@@ -18,6 +18,14 @@ jobs:
             repository: ${{ github.repository }}
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: get release name
+        id: get_release_name
+        run: |
+          brew install jq
+          name=$(echo "$response" | jq -r '.name')
+          echo "::set-output name=name::$name"
+        env: 
+            response:  ${{ steps.get_latest_release.outputs.data }}
       - name: Set up Homebrew
         id: set-up-homebrew
         uses: Homebrew/actions/setup-homebrew@master
@@ -38,7 +46,7 @@ jobs:
         run: |
           brew tap aws/tap
           brew update-reset
-          brew test-bot --root-url https://github.com/$GITHUB_REPOSITORY/releases/download/litani-1.19.0 aws/tap/cbmc-viewer
+          brew test-bot --root-url https://github.com/$GITHUB_REPOSITORY/releases/download/${{ steps.get_release_name.outputs.name }} aws/tap/cbmc-viewer
 
       - name: LS
         run: ls
