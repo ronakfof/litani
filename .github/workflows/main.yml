@@ -51,8 +51,8 @@ jobs:
         id: packages
         run: |
           bottle_name="$(ls *.tar.gz)"
-          echo "::set-output name=bottle::$deb_package_name"
-          echo "::set-output name=bottle_name::$deb_package_name"
+          echo "::set-output name=bottle::$bottle_name"
+          echo "::set-output name=bottle_name::$bottle_name"
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
