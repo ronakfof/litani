@@ -45,29 +45,26 @@ jobs:
         run: |
           cd $(brew --repository)/Library/Taps/aws/homebrew-tap/
           git diff
-#       - name: Get release
-#         id: get_release_info
-#         uses: bruceadams/get-release@v1.2.3
-#       - name: Upload release binary
-#         uses: actions/upload-release-asset@v1.0.2
-#         with:
-#           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-#           asset_path: ${{ steps.create_packages.outputs.deb_package }}
-#           asset_name: ${{ steps.create_packages.outputs.deb_package_name }}
-#           asset_content_type: application/x-deb
-#       - name: Upload release binary
-#         uses: actions/upload-release-asset@v1.0.2
-#         with:
-#           upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-#           asset_path: ${{ steps.create_packages.outputs.deb_package }}
-#           asset_name: ${{ steps.create_packages.outputs.deb_package_name }}
-#           asset_content_type: application/x-deb
+      - name: packages
+        id: packages
+        run: |
+          bottle_name="$(ls *.tar.gz)"
+          echo "::set-output name=bottle::$deb_package_name"
+          echo "::set-output name=bottle_name::$deb_package_name"
+      - name: Get release
+        id: get_release_info
+        uses: bruceadams/get-release@v1.2.3
+      - name: Upload release binary
+        uses: actions/upload-release-asset@v1.0.2
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ${{ steps.packages.outputs.bottle }}
+          asset_name: ${{ steps.packages.outputs.bottle_name }}
+          asset_content_type: application/x-gzip
   upload:
     needs: test-bot
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
     - uses: actions/download-artifact@v3
       with:
         name: bottles
