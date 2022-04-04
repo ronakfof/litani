@@ -20,8 +20,9 @@ jobs:
         uses: ./.github/actions/build
         with:
             version: ${{ env.VERSION }}
+      - name: Path to artifact
       - name: Upload report as artifact
         uses: actions/upload-artifact@main
         with:
           name: ${{ env.VERSION }}-${{ runner.os }}-deb-package
-          path: ${{ steps.build_deb_package.outputs.deb_package }}
+          path: ${{ steps.build_deb_package.outputs.deb-package-path }}

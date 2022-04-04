@@ -22,6 +22,6 @@ jobs:
         uses: actions/upload-release-asset@v1.0.2
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ${{ steps.build_deb_package.outputs.deb_package }}
-          asset_name: ${{ steps.build_deb_package.outputs.deb_package_name }}
+          asset_path: ${{ steps.build_deb_package.outputs.deb-package-path }}
+          asset_name: ${{ steps.build_deb_package.outputs.deb-package-name }}
           asset_content_type: application/x-deb
