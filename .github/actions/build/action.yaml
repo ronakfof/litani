@@ -7,10 +7,10 @@ inputs:
 outputs:
   deb-package-path:
     description: Deb Package Path
-    value: ${{steps.setup.create_packages.deb_package}}
+    value: ${{steps.create_packages.outputs.deb_package}}
   deb-package-name:
     description: Deb Package Name
-    value: ${{steps.setup.create_packages.deb_package_name}}
+    value: ${{steps.create_packages.outputs.deb_package_name}}
 runs:
   using: composite
   steps:
