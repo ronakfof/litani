@@ -1,4 +1,6 @@
-on: [pull_request]
+n:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 name: Upload deb package to artifacts
 jobs:
