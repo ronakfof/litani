@@ -20,7 +20,6 @@ jobs:
         uses: ./.github/actions/build
         with:
             version: ${{ env.VERSION }}
-      - name: Path to artifact
       - name: Upload report as artifact
         uses: actions/upload-artifact@main
         with:
