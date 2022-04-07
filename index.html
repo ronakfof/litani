@@ -1171,79 +1171,6 @@ litani set-jobs --from-file /tmp/transformed.JSON</pre>
 </div>
           </div>
           
-            <div class="content-title" id="litani-man_litani-dump-run">
-              <h1>litani dump-run</h1>
-            </div>
-            <div class="man-body">
-            
-<div class="manual-text">
-<section class="Sh">
-<h2 class="Sh" id="litani-dump-run_NAME"><a class="permalink" href="#litani-dump-run_NAME">NAME</a></h2>
-<p class="Pp">litani dump-run - Print the current run as a JSON document to
-    stdout</p>
-</section>
-<section class="Sh">
-<h2 class="Sh" id="litani-dump-run_SYNOPSIS"><a class="permalink" href="#litani-dump-run_SYNOPSIS">SYNOPSIS</a></h2>
-<p class="Pp"><b>litani dump-run</b></p>
-<div class="Bd-indent">[<b>-r</b>/<b>--retries</b> <i>N</i>]
-  [<b>-o</b>/<b>--out-file</b> <i>F</i>]</div>
-</section>
-<section class="Sh">
-<h2 class="Sh" id="litani-dump-run_DESCRIPTION"><a class="permalink" href="#litani-dump-run_DESCRIPTION">DESCRIPTION</a></h2>
-<p class="Pp">This program prints the run.json file for a Litani run to stdout
-    or to the specified output file. The JSON file's schema is documented in
-    <b>litani-run.json(5)</b>.</p>
-<p class="Pp">This program is intended to be used while an invocation of
-    <b>litani-run-build(1)</b> is running. You can access the <i>run.json</i>
-    file in the run's output directory both during and after termination of the
-    <b>run-build</b> process.</p>
-<p class="Pp">This program may be run as a Litani job, and it may be run as a
-    subprocess from a command that is part of a Litani job. This allows commands
-    to 'introspect' on a Litani run so far. It is guaranteed that if a single
-    Litani job runs <b>litani</b> <b>dump-run</b>, all of the
-    reverse-dependencies of that job will have the <i>&quot;complete&quot;</i>
-    key set to <b>True</b> in the printed <i>run.json</i> file. That is, any job
-    that runs <b>litani dump-run</b> will always see the most up-to-date state
-    of the build with respect to its own reverse dependencies.</p>
-</section>
-<section class="Sh">
-<h2 class="Sh" id="litani-dump-run_MULTIPROCESS_SAFETY"><a class="permalink" href="#litani-dump-run_MULTIPROCESS_SAFETY">MULTIPROCESS
-  SAFETY</a></h2>
-<p class="Pp">It is safe to run multiple invocations of <b>litani dump-run</b>
-    in parallel. However, if you do so, the printed result may be slightly
-    out-of-date.</p>
-<p class="Pp">If you run <b>litani dump-run</b> from a Litani job, Litani will
-    attempt to ensure that the printed run is up-to-date with respect to that
-    job. In particular, Litani will try to re-load the run until all the reverse
-    dependencies have their <i>&quot;complete&quot;</i> field set to
-    <b>true</b>.</p>
-</section>
-<section class="Sh">
-<h2 class="Sh" id="litani-dump-run_OPTIONS"><a class="permalink" href="#litani-dump-run_OPTIONS">OPTIONS</a></h2>
-<p class="Pp"><b>-r</b> <i>N</i>, <b>--retries</b> <i>N</i></p>
-<div class="Bd-indent">How many times to retry loading the run file if the
-  <b>litani run-build</b> process doesn't emit it immediately. <b>litani
-  dump-run</b> will retry loading the run once every second up to the limit
-  given in this flag. If <i>N</i> is <b>0</b>, this program will retry
-  indefinitely---this is not recommended.</div>
-<p class="Pp"><b>-o</b> <i>F</i>, <b>--out-file</b> <i>F</i></p>
-<div class="Bd-indent">Print the run to <i>F</i> instead of stdout</div>
-</section>
-<section class="Sh">
-<h2 class="Sh" id="litani-dump-run_OUTPUT"><a class="permalink" href="#litani-dump-run_OUTPUT">OUTPUT</a></h2>
-<p class="Pp">A JSON document printed to stdout. This will be either <b>null</b>
-    (if this program was not able to load the run after a certain number of
-    tries), or a document whose schema matches the one in
-    <b>litani-run.json(5)</b>.</p>
-</section>
-<section class="Sh">
-<h2 class="Sh" id="litani-dump-run_RETURN_CODE"><a class="permalink" href="#litani-dump-run_RETURN_CODE">RETURN
-  CODE</a></h2>
-<p class="Pp">Zero unless the program crashed.</p>
-</section>
-</div>
-          </div>
-          
             <div class="content-title" id="litani-man_litani-run-build">
               <h1>litani run-build</h1>
             </div>
@@ -1933,12 +1860,6 @@ litani set-jobs --from-file /tmp/transformed.JSON</pre>
 								<a
                   href="#litani-man_litani-set-jobs"
                   >litani set-jobs(1)</a>
-              </li>
-            
-              <li class="navL1">
-								<a
-                  href="#litani-man_litani-dump-run"
-                  >litani dump-run(1)</a>
               </li>
             
               <li class="navL1">
