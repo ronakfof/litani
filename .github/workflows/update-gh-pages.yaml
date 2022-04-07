@@ -20,19 +20,22 @@ jobs:
         run: |
           echo "$GITHUB_CONTEXT"
           echo "test2"
-      # - name: Install utilities
-      #   run: |
-      #     brew install scdoc mandoc coreutils ninja
-      #     pip3 install pyyaml jinja2
-      # - name: Build doc
-      #   run: ./doc/configure && ninja
-      # - name: Publish Documentation
-      #   uses: JamesIves/github-pages-deploy-action@4.1.4
-      #   with:
-      #     branch: gh-pages
-      #     folder: doc/out/html
-      # - name: Publish Documentation
-      #   uses: JamesIves/github-pages-deploy-action@4.1.4
-      #   with:
-      #     branch: gh-pages
-      #     folder: doc/out/html
+      - name: Install utilities
+        run: |
+          brew install scdoc mandoc coreutils ninja
+          pip3 install pyyaml jinja2
+      - name: Build doc
+        run: ./doc/configure && ninja
+      - name: Publish Documentation
+        if: ${{ github.event_name == 'release' }}
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: doc/out/html
+          target-folder: develop
+      - name: Publish Documentation
+        if: ${{ github.event_name == 'push' && startsWith('refs/heads/develop', github.ref) }}
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: doc/out/html
