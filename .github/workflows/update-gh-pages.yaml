@@ -19,7 +19,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo "$GITHUB_CONTEXT"
-          echo "test"
+          echo "test2"
       # - name: Install utilities
       #   run: |
       #     brew install scdoc mandoc coreutils ninja
