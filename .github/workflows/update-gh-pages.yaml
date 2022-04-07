@@ -1,6 +1,8 @@
 on:
   release:
-    types: [created]  
+    types: [created]
+  push:
+    branches: [ develop ]
 
 name: Update documentation
 jobs:
@@ -12,14 +14,25 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install utilities
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
-          brew install scdoc mandoc coreutils ninja
-          pip3 install pyyaml jinja2
-      - name: Build doc
-        run: ./doc/configure && ninja
-      - name: Publish Documentation
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages
-          folder: doc/out/html
+          echo "$GITHUB_CONTEXT"
+          echo "test2"
+      # - name: Install utilities
+      #   run: |
+      #     brew install scdoc mandoc coreutils ninja
+      #     pip3 install pyyaml jinja2
+      # - name: Build doc
+      #   run: ./doc/configure && ninja
+      # - name: Publish Documentation
+      #   uses: JamesIves/github-pages-deploy-action@4.1.4
+      #   with:
+      #     branch: gh-pages
+      #     folder: doc/out/html
+      # - name: Publish Documentation
+      #   uses: JamesIves/github-pages-deploy-action@4.1.4
+      #   with:
+      #     branch: gh-pages
+      #     folder: doc/out/html
