@@ -52,7 +52,7 @@ similar end result.
 # MULTIPROCESS SAFETY
 
 This command is not safe to run concurrently with `set-jobs`, because
-`set-jobs` might delete a JSON file while this command reads it. This command
+set-jobs might delete a JSON file while this command reads it. This command
 is safe to run concurrently with `add-jobs` and `run-build` because new job
 files get written atomically.
 
