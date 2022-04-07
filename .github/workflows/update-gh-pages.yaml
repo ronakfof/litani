@@ -32,6 +32,7 @@ jobs:
         with:
           branch: gh-pages
           folder: doc/out/html
+          target-folder: release
       - name: Publish Documentation from develop
         if: ${{ github.event_name == 'push' && startsWith('refs/heads/develop', github.ref) }}
         uses: JamesIves/github-pages-deploy-action@4.1.4
