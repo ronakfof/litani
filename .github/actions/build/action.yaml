@@ -1,4 +1,4 @@
-name: Build Deb package for Litani
+name: Build Deb package for Litani test
 description: Install dependencies and build kani binaries
 inputs:
   version:
