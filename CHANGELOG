@@ -6,8 +6,7 @@ Version 1.22.0 -- 2022-03-15
 - Print out stderr when a job fails
   The entire buffered stderr of a job that fails will now be printed  quickly debug these jobs without viewing the HTML report.
 
-  This commit fixes #131.
-
+  This commit fixe
 - Fix content colour in dark mode
 
   Previously, some content would appear in a dark colour in dark mode
