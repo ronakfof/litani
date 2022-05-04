@@ -8,10 +8,7 @@ se sections. Prior to this commit, it
   was not possible to link to specific graphs on the front page, for
   example. This PR also introduces a CONTRIBUTING.md file that contains
   guidance to continue this pattern.
-
-- Do not run litani tests if 'no-test' label is set
-
-- Fix space in release script
+n release script
 
 - Tell release engineer to push develop and release
 
