@@ -18,5 +18,4 @@ jobs:
     - name: install
       run: |
         pip3 install aws-cdk-lib
-        which cdk
         cdk -h
