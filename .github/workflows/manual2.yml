@@ -17,5 +17,5 @@ jobs:
     # Runs a single command using the runners shell
     - name: install
       run: |
-        sudo npm install -g aws-cdk
+        sudo python3 -m pip install aws-cdk-lib
         cdk -h
