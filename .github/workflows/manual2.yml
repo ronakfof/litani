@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Manual workflow
+name: Manual workflow 2
 
 on:
   workflow_dispatch:
@@ -17,5 +17,5 @@ jobs:
     # Runs a single command using the runners shell
     - name: install
       run: |
-        python3 -m pip install --upgrade pip aws-cdk-lib
+        npm install aws-cdk-lib
         cdk -h
