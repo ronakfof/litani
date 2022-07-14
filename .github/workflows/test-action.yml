@@ -14,8 +14,8 @@ jobs:
           # GitHub's personal access token with access to `my-organization/awesome-action`
           token: ${{ secrets.BOT_USER_PERSONAL_ACCESS_TOKEN }}
           persist-credentials: false
-          path: ./.github/actions/awesome-action
-      - uses: ./.github/actions/awesome-action
+          path: ./.github/actions/proof-ci
+      - uses: ./.github/actions/proof-ci
         with:
           # required
           cbmc-version: 5.59.0
